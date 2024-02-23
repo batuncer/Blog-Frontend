@@ -1,11 +1,12 @@
 import axios from "../services/axios";
-import { Post } from "../types/PostTypes"; 
+import { Post } from "../types/PostTypes";
 
 class PostService {
   async getAllPosts(): Promise<Post[]> {
     try {
-      const response = await axios.get<Post[]>("/posts"); 
-      return response.data;
+      const response = await axios.get<Post[]>("/posts");
+       const posts = response.data;
+    return posts.reverse();
     } catch (error) {
       console.error("Error fetching posts:", error);
       throw error;
@@ -14,7 +15,7 @@ class PostService {
 
   async getPostById(postId: number): Promise<Post | null> {
     try {
-      const response = await axios.get<Post>(`/posts/${postId}`); 
+      const response = await axios.get<Post>(`/posts/${postId}`);
       return response.data;
     } catch (error) {
       console.error(`Error fetching post with ID ${postId}:`, error);
@@ -37,7 +38,7 @@ class PostService {
     updatedPost: Partial<Post>
   ): Promise<Post | null> {
     try {
-      const response = await axios.put<Post>(`/posts/${postId}`, updatedPost); 
+      const response = await axios.put<Post>(`/posts/${postId}`, updatedPost);
       return response.data;
     } catch (error) {
       console.error(`Error updating post with ID ${postId}:`, error);
